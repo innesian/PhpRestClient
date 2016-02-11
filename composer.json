@@ -1,6 +1,7 @@
 {
     "name": "adam-innes/php-rest-client",
     "description": "PHP REST Client",
+    "version": "1.0",
     "require": {
         "php": ">=5.4.0"
     },
