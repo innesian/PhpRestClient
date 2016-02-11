@@ -1,0 +1,12 @@
+{
+    "name": "PhpRestClient/PhpRestClient",
+    "description": "PHP REST Client",
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpRestClient\\": "src/"
+        }
+    }
+}
