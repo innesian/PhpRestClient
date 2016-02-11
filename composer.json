@@ -1,5 +1,5 @@
 {
-    "name": "PhpRestClient/PhpRestClient",
+    "name": "adam-innes/php-rest-client",
     "description": "PHP REST Client",
     "require": {
         "php": ">=5.5.0"
