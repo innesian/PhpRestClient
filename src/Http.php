@@ -1,4 +1,4 @@
-<?php namespace PhpRest;
+<?php namespace PhpRestClient;
 
 trait Http
 {
