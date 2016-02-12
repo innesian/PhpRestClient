@@ -2,6 +2,7 @@
 
 trait Http
 {
+    /** @var array $default_curlopts Default settings for cURL requests. */
     public $default_curlopts = array(
         'CURLOPT_CONNECTTIMEOUT' => 5,
         'CURLOPT_RETURNTRANSFER' => true,
@@ -10,8 +11,27 @@ trait Http
         'CURLOPT_SSL_VERIFYPEER' => false,
     );
 
+    /** 
+     * @var array $curl_headers Custom headers to be sent during a request. These
+     *                          headers do not persist across requests and need to
+     *                          be set with every call to httpRequest().
+     */
     public $curl_headers = array();
 
+    /**
+     * Sets the default cURL options.
+     *
+     * Adds new cURL options to the default array, these will be used on each
+     * request. Defaults can be unset by sending a null value.
+     *
+     * @param array $optons {
+     *     @var mixed $CURLOPT_*  Any valid CURLOPT_ setting as a (string) key and 
+     *                            associated value. Do not pass the CURLOPTS in with
+     *                            array keys set to their constant integer values.
+     * }
+     *
+     * @return void
+     */
     public function setDefaultCurlopts(array $options)
     {
         array_merge($this->default_curlopts, $options);
@@ -24,7 +44,15 @@ trait Http
         }
     }
 
-    // set an associative array of headers
+    /**
+     * Sets Headers to be passed in the CURLOPT_HEADER cURL option.
+     *
+     * @param array $headers {
+     *     @var string $header Header name should be passed over as the key with value.
+     * }
+     *
+     * @return void
+     */
     public function setHeaders($headers)
     {
         foreach ($headers as $header=>$value) {
