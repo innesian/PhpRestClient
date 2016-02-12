@@ -30,7 +30,8 @@ class PhpRestClient
      *     @var mixed $CURLOPT_*  Any valid CURLOPT_ setting as a (string) key and 
      *                             associated value. Do not pass the CURLOPTS in with
      *                             array keys set to their constant integer values.
-     *     @var bool  $NO_COOKIES Prevent request from using and storing cookies.
+     *     @var bool  $NO_COOKIES Set to true to prevent request from using and 
+     *                            storing cookies.
      * }
      *
      * @return mixed Boolean false on failure, parsed response on success.
@@ -38,10 +39,10 @@ class PhpRestClient
     public function call($path, $options)
     {
         // Base URL has a trailing slash, remove this if passed in.
-        $base_url = $this->base_url . ltrim($path, '/');
+        $url = $this->base_url . ltrim($path, '/');
 
-        $response = $this->http_request($base_url, $options);
-        return $this->parse_response($response);
+        $response = $this->httpRequest($url, $options);
+        return $this->parseResponse($response);
     }
 
     /**
@@ -53,7 +54,7 @@ class PhpRestClient
      *
      * @return void
      */
-    public function set_authentication($username, $password, $auth=CURLAUTH_BASIC)
+    public function setAuthentication($username, $password, $auth=CURLAUTH_BASIC)
     {
         $this->default_curlopts['CURLOPT_HTTPAUTH'] = $auth;
         $this->default_curlopts['CURLOPT_USERPWD']  = "{$username}:{$password}";
@@ -61,8 +62,13 @@ class PhpRestClient
 
     /**
      * Determine if the response is XML or JSON and returns parsed response.
+     *
+     * @param string $response Response string.
+     *
+     * @return mixed SimpleXMLObject, JSON as object or array, string if no match,
+     *               false on failure.
      */
-    public function parse_response($response) {
+    public function parseResponse($response) {
         $first_char = substr(trim($response), 0, 1);
 
         switch ($first_char) {
@@ -82,16 +88,34 @@ class PhpRestClient
         return $response;
     }
 
-    // get
+    /**
+     * Makes a GET request from the API.
+     *
+     * @param string $path    Path of request, not including domain.
+     * @param mixed  $query   Array of request parameters or query string.
+     * @param array  $headers Headers should be passed with the header name as the key.
+     * 
+     * @return mixed Response object or array from the server, false on failure.
+     */
     public function get($path, $query, $headers)
     {
         $query = is_array($query) ? http_build_query($query) : $query;
-        $this->set_headers($headers);
+        $path .= $query ? '?' . ltrim($query, '?') : '';
+
+        $this->setHeaders($headers);
 
         return $this->call($path);
     }
 
-    // put
+    /**
+     * Makes a PUT request from the API.
+     *
+     * @param string $path    Path of request, not including the domain.
+     * @param mixed  $query   Array of request parameters or query string.
+     * @param array  $headers Headers should be passed with the header name as the key.
+     *
+     * @return mixed Response object or array from the server, false on failure.
+     */
     public function put($path, $query, $headers)
     {
         if (is_string($query)) {
@@ -103,8 +127,16 @@ class PhpRestClient
         return $this->call($path, $options);
     }
 
-    // post
-    public function post($url, $query, $headers)
+    /**
+     * Makes a POST request from the API.
+     *
+     * @param string $path    Path of request, not including domain.
+     * @param mixed  $query   Array of request parameters or query string.
+     * @param array  $headers Headers should be passed with the header name as the key.
+     * 
+     * @return mixed Response object or array from the server, false on failure.
+     */
+    public function post($path, $query, $headers)
     {
         if (is_string($query)) {
             $this->curl_headers[] = 'Content-Length: ' . strlen($query);
@@ -114,30 +146,50 @@ class PhpRestClient
         $options['CURLOPT_POST'] = true;
         $options['CURLOPT_POSTFIELDS'] = $query;
 
-        $this->set_headers($headers);
+        $this->setHeaders($headers);
 
         return $this->call($path, $options);
     }
 
-    // delete
-    public function delete($url, $headers)
+    /**
+     * Makes a GET request from the API.
+     *
+     * @param string $path    Path of request, not including domain.
+     * @param mixed  $query   Array of request parameters or query string.
+     * @param array  $headers Headers should be passed with the header name as the key.
+     * 
+     * @return mixed Response object or array from the server, false on failure.
+     */
+    public function delete($path, $headers)
     {
         $options['CURLOPT_CUSTOMREQUEST'] = 'DELETE';
 
-        $this->set_headers($headers);
+        $this->setHeaders($headers);
 
         return $this->call($path, $options);
     }
 
-    // patch
-    public function patch($url, $query, $headers)
+    /**
+     * Makes a PATCH request from the API.
+     *
+     * @param string $path    Path of request, not including domain.
+     * @param mixed  $query   Array of request parameters or query string.
+     * @param array  $headers Headers should be passed with the header name as the key.
+     * 
+     * @return mixed Response object or array from the server, false on failure.
+     */
+    public function patch($path, $query, $headers)
     {
+        if (is_array($query)) {
+            $query = http_build_query($query);
+        }
+
         $this->curl_headers[] = 'Content-Length: ' . strlen($query);
 
         $options['CURLOPT_CUSTOMREQUEST'] = 'PATCH';
         $options['CURLOPT_POSTFIELDS'] = $query;
         
-        $this->set_headers($headers);
+        $this->setHeaders($headers);
 
         return $this->call($path, $options);
     }

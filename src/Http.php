@@ -12,7 +12,7 @@ trait Http
 
     public $curl_headers = array();
 
-    public function set_default_curlopts(array $options)
+    public function setDefaultCurlopts(array $options)
     {
         array_merge($this->default_curlopts, $options);
 
@@ -25,14 +25,14 @@ trait Http
     }
 
     // set an associative array of headers
-    public function set_headers($headers)
+    public function setHeaders($headers)
     {
         foreach ($headers as $header=>$value) {
             $this->curl_headers[] = "{$header}: {$value}";
         }
     }
 
-    public function http_request($url, $options=array())
+    public function httpRequest($url, $options=array())
     {
         // Validate URL.
         if (filter_var($url, FILTER_VALIDATE_URL)) {
