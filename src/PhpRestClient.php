@@ -4,7 +4,24 @@ class PhpRestClient
 {
     use Http;
 
-    public $return_json_as_json = true;
+    public $return_json_as_array = true;
+
+    public $base_url = false;
+
+    public function __construct($base_url)
+    {
+        $this->base_url = rtrim($base_url, '/') . '/';
+    }
+
+    /**
+     * Build URL.
+     */
+    public function build_url($path)
+    {
+        $path = ltrim($path, '/');
+
+        return $this->base_url . $path;
+    }
 
     /**
      * Sets the authentication method for requests.
@@ -43,8 +60,10 @@ class PhpRestClient
     }
 
     // get
-    public function get($url, $query, $headers)
+    public function get($path, $query, $headers)
     {
+        $url = $this->build_url($path);
+
         $query = is_array($query) ? http_build_query($query) : $query;
         $this->set_headers($headers);
 
