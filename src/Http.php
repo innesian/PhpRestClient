@@ -67,17 +67,17 @@ trait Http
         // Set default values not passed in.
         foreach ($this->default_curlopts as $option=>$value) {
             if (!isset($curlopts[$option])) {
-                $curlopts[$option] = $value;
+                $curlopts[constant($option)] = $value;
             }
         }
 
         curl_setopt_array($ch, $curlopts);
         $this->curl_response = curl_exec($ch);
 
-        // Store request.
+        // Save last request.
         $this->curl_info = curl_getinfo($ch);
 
-        // Store error.
+        // Save last error.
         if (false === $this->curl_repsponse) {
             $this->curl_error = curl_error($ch);
         } else $this->curl_error = false;
