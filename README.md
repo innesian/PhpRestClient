@@ -1,8 +1,8 @@
 PHP RESTful Client Library
 ==========================
 
-### Add as a dependency to your REST project via the *composer.json*.
-Create a *composer.json* file in your project and add `PhpRestClient` as a dependency.
+### Add PhpRestClient as a dependency to your REST project using Composer.
+Create a *composer.json* file in your project and add `PhpRestClient` as a required dependency.
 ```
 {
     "require": {
@@ -13,10 +13,18 @@ Create a *composer.json* file in your project and add `PhpRestClient` as a depen
 
 ### Install with Composer.
 Clone the repository.
-`$ git clone https://github.com/innesian/PhpRestClient.git`
+```
+$ git clone https://github.com/innesian/PhpRestClient.git
+```
 Install Composer in your project using cURL (command below) or [download the composer.phar directly](http://getcomposer.org/composer.phar).
-`$ curl -sS http://getcomposer.org/installer | php`
+```
+$ curl -sS http://getcomposer.org/installer | php
+```
 Let Composer install the project dependencies:
-`$ php composer.phar install`
+```
+$ php composer.phar install
+```
+
+
 
 
