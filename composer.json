@@ -1,7 +1,7 @@
 {
     "name": "adam-innes/php-rest-client",
     "description": "PHP REST Client",
-    "version": "1.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Adam Innes",
