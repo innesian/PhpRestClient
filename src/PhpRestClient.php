@@ -97,7 +97,7 @@ class PhpRestClient
      * 
      * @return mixed Response object or array from the server, false on failure.
      */
-    public function get($path, $query = null, $headers)
+    public function get($path, $query = null, $headers = null)
     {
         $query = is_array($query) ? http_build_query($query) : $query;
         $path .= $query ? '?' . ltrim($query, '?') : '';
