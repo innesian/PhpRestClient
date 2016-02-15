@@ -56,8 +56,21 @@ class PhpRestClient
      */
     public function setAuthentication($username, $password, $auth=CURLAUTH_BASIC)
     {
-        $this->default_curlopts['CURLOPT_HTTPAUTH'] = $auth;
-        $this->default_curlopts['CURLOPT_USERPWD']  = "{$username}:{$password}";
+        $headers['CURLOPT_HTTPAUTH'] = $auth;
+        $headers['CURLOPT_USERPWD']  = "{$username}:{$password}";
+        $this->setDefaultCurlopts($headers);
+    }
+
+    /**
+     * Unsets the authentication headers.
+     *
+     * @return void
+     */
+    public function unsetAuthentication()
+    {
+        $headers['CURLOPT_HTTPAUTH'] = null;
+        $headers['CURLOPT_USERPWD'] = null;
+        $this->setDefaultCurlopts($headers);
     }
 
     /**
