@@ -60,6 +60,20 @@ trait Http
         }
     }
 
+    /**
+     * Makes an HTTP Request.
+     *
+     * @param string $url Request URL.
+     * @param array  $options {
+     *     @var mixed $CURLOPT_*  Any valid CURLOPT_ setting as a (string) key and
+     *                             associated value. Do not pass the CURLOPTS in with
+     *                             array keys set to their constant integer values.
+     *     @var bool  $NO_COOKIES Set to true to prevent request from using and
+     *                            storing cookies.
+     * }
+     *
+     * @return mixed Response string on success, false on failure.
+     */
     public function httpRequest($url, $options=array())
     {
         // Validate URL.
