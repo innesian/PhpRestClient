@@ -97,12 +97,14 @@ class PhpRestClient
      * 
      * @return mixed Response object or array from the server, false on failure.
      */
-    public function get($path, $query, $headers)
+    public function get($path, $query = null, $headers)
     {
         $query = is_array($query) ? http_build_query($query) : $query;
         $path .= $query ? '?' . ltrim($query, '?') : '';
 
-        $this->setHeaders($headers);
+        if ($headers) {
+            $this->setHeaders($headers);
+        }
 
         return $this->call($path);
     }
@@ -116,7 +118,7 @@ class PhpRestClient
      *
      * @return mixed Response object or array from the server, false on failure.
      */
-    public function put($path, $query, $headers)
+    public function put($path, $query = null, $headers = null)
     {
         if (is_string($query)) {
             $this->curl_headers[] = 'Content-Length: ' . strlen($query);
@@ -136,7 +138,7 @@ class PhpRestClient
      * 
      * @return mixed Response object or array from the server, false on failure.
      */
-    public function post($path, $query, $headers)
+    public function post($path, $query = null, $headers = null)
     {
         if (is_string($query)) {
             $this->curl_headers[] = 'Content-Length: ' . strlen($query);
@@ -146,7 +148,9 @@ class PhpRestClient
         $options['CURLOPT_POST'] = true;
         $options['CURLOPT_POSTFIELDS'] = $query;
 
-        $this->setHeaders($headers);
+        if ($headers) {
+            $this->setHeaders($headers);
+        }
 
         return $this->call($path, $options);
     }
@@ -160,11 +164,13 @@ class PhpRestClient
      * 
      * @return mixed Response object or array from the server, false on failure.
      */
-    public function delete($path, $headers)
+    public function delete($path, $headers = null)
     {
         $options['CURLOPT_CUSTOMREQUEST'] = 'DELETE';
 
-        $this->setHeaders($headers);
+        if ($headers) {
+            $this->setHeaders($headers);
+        }
 
         return $this->call($path, $options);
     }
@@ -178,7 +184,7 @@ class PhpRestClient
      * 
      * @return mixed Response object or array from the server, false on failure.
      */
-    public function patch($path, $query, $headers)
+    public function patch($path, $query = null, $headers = null)
     {
         if (is_array($query)) {
             $query = http_build_query($query);
@@ -187,9 +193,13 @@ class PhpRestClient
         $this->curl_headers[] = 'Content-Length: ' . strlen($query);
 
         $options['CURLOPT_CUSTOMREQUEST'] = 'PATCH';
-        $options['CURLOPT_POSTFIELDS'] = $query;
+        if ($query) {
+            $options['CURLOPT_POSTFIELDS'] = $query;
+        }
         
-        $this->setHeaders($headers);
+        if ($headers) {
+            $this->setHeaders($headers);
+        }
 
         return $this->call($path, $options);
     }

@@ -1,5 +1,6 @@
 <?php namespace PhpRestClient;
 
+
 trait Http
 {
     /** @var array $default_curlopts Default settings for cURL requests. */
