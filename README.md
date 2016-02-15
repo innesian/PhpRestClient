@@ -33,15 +33,30 @@ Create a *composer.json* file in your project and add `adam-innes/php-rest-clien
 }
 ```
 ## Usage
-### GET Request
+### Standard Requests
 ```php
 $rest = new \PhpRestClient\PhpRestClient('http://base.url/to/api');
+
+/** Get Example **/
 # Set custom headers.
 $headers = array(
     'CURLOPT_VERBOSE' => true,
 );
 # The get function will take a query string or array of parameters.
 $response = $rest->get('account/information', 'variable=1&variable=2', $headers);
+
+/** Put Example **/
+$params['variable_1'] = 'value_1';
+$params['variable_2'] = 'value_2';
+$response = $rest->put('user/information', $params);
+
+/** Post Example **/
+$params['variable_1'] = 'value_1';
+$params['variable_2'] = 'value_2';
+$response = $rest->post('user/information', $params);
+
+/** Delete Example **/
+$response = $rest->delete('delete/user/5');
 ```
 ### Basic and Digest Authentication
 The `setAuthentication()` function will set Basic or Digest authenication headers for the remainder of the session unless explicitly unset. 
