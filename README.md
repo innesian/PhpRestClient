@@ -32,3 +32,14 @@ Create a *composer.json* file in your project and add `adam-innes/php-rest-clien
     }
 }
 ```
+## Usage
+GET Request
+```php
+$rest = new \PhpRestClient\PhpRestClient('http://base.url/to/api');
+# Set custom headers.
+$headers = array(
+    'CURLOPT_VERBOSE' => true,
+);
+# The get function will take a query string or array of parameters.
+$response = $rest->get('account/information', 'variable=1&variable=2', $headers);
+```
