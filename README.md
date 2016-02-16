@@ -28,7 +28,7 @@ Create a *composer.json* file in your project and add `adam-innes/php-rest-clien
 ```
 {
     "require": {
-        "adam-innes/php-rest-client": ">=1.0.1"
+        "adam-innes/php-rest-client": ">=1.0.2"
     }
 }
 ```
