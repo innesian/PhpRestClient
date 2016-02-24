@@ -36,7 +36,7 @@ class PhpRestClient
      *
      * @return mixed Boolean false on failure, parsed response on success.
      */
-    public function call($path, $options)
+    public function call($path, $options = array())
     {
         // Base URL has a trailing slash, remove this if passed in.
         $url = $this->base_url . ltrim($path, '/');
