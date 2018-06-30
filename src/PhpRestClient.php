@@ -84,6 +84,10 @@ class PhpRestClient
     public function parseResponse($response) {
         $first_char = substr(trim($response), 0, 1);
 
+        if (stripos($response, 'DOCTYPE HTTP') !== false) {
+          return $response;
+        }
+
         switch ($first_char) {
             case '<': // XML.
                 $response = simplexml_load_string($response);
