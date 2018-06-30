@@ -109,11 +109,18 @@ trait Http
             }
         }
 
+
+        // Set custom headers, these should override any previously set headers.
+        $flattenedHeaders = $this->flattenHeaders();
+        if (count($flattenedHeaders)) {
+          $options['CURLOPT_HTTPHEADER'] = $flattenedHeaders;
+        }
+
         // Create array of cURL options.
-        foreach ($options as $option=>$value) {
-            if (strpos($option, 'CURLOPT_') !== false) {
-                $curlopts[constant($option)] = $value;
-            }
+        foreach ($options as $option => $value) {
+          if (strpos($option, 'CURLOPT_') !== false) {
+            $curlopts[constant($option)] = $value;
+          }
         }
 
         // Set default values not passed in.
@@ -121,12 +128,6 @@ trait Http
             if (!isset($curlopts[$option])) {
                 $curlopts[constant($option)] = $value;
             }
-        }
-
-        // Set custom headers, these should override any previously set headers.
-        $flattenedHeaders = $this->flattenHeaders();
-        if (count($flattenedHeaders)) {
-            $options['CURLOPT_HTTPHEADER'] = $flattenedHeaders;
         }
 
         curl_setopt_array($ch, $curlopts);
