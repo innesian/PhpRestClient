@@ -125,7 +125,7 @@ trait Http
 
         // Set custom headers, these should override any previously set headers.
         $flattenedHeaders = $this->flattenHeaders();
-        if (count($flattenHeaders)) {
+        if (count($flattenedHeaders)) {
             $options['CURLOPT_HTTPHEADER'] = $flattenedHeaders;
         }
 
